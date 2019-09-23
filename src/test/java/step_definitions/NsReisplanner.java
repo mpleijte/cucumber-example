@@ -17,30 +17,32 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class ReisPlanner {
+public class NsReisplanner {
 
-    final private ChromeDriver driver = getDriver();
+    final private ChromeDriver DRIVER = getDriver();
+    final private String COOKIE_CONTAINER = "//iframe[@id='r42CookieBar']";
+    final private String COOKIE_ACCEPT_BUTTON = "//a[@class='button accept']";
 
-    private final FluentWait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver) {}
+
+    private final FluentWait<WebDriver> fluentWait = new FluentWait<WebDriver>(DRIVER) {}
             .withTimeout(Duration.ofSeconds(10))
-            .pollingEvery(Duration.ofMillis(200))
+            .pollingEvery(Duration.ofMillis(100))
             .ignoring(NoSuchElementException.class);
 
     @Given("^I am on the Reisplanner homepage$")
     public void visitGoogle() {
 
         /** open homepage */
-        driver.get("https://www.ns.nl/reisplanner#/");
-        String pattern = "//iframe[@id='r42CookieBar']";
-        fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(pattern)));
+        DRIVER.get("https://www.ns.nl/reisplanner#/");
+        fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(COOKIE_CONTAINER)));
 
         /** switch to cookie popup */
-        driver.switchTo().frame("r42CookieBar");
+        DRIVER.switchTo().frame("r42CookieBar");
 
         /** wait for accept button to present and click on it */
-        pattern = "//a[@class='button accept']";
-        fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(pattern)));
-        WebElement acceptCookieBtn = driver.findElement(By.xpath(pattern));
+
+        fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(COOKIE_ACCEPT_BUTTON)));
+        WebElement acceptCookieBtn = DRIVER.findElement(By.xpath(COOKIE_ACCEPT_BUTTON));
         acceptCookieBtn.click();
     }
 
@@ -48,7 +50,7 @@ public class ReisPlanner {
     public void setTravelFromLocation(String location) {
         /** Wait for input to be present*/
         String pattern = ("//*[@id='location-input-FROM-POSITIONED']");
-        final WebElement INPUT_FROM_ELEMENT = driver.findElement(By.xpath(pattern));
+        final WebElement INPUT_FROM_ELEMENT = DRIVER.findElement(By.xpath(pattern));
         fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath(pattern)));
         INPUT_FROM_ELEMENT.click();
 
@@ -58,10 +60,10 @@ public class ReisPlanner {
     }
 
     @When("^I choose to travel TO \"(.*)\"$")
-    public void setTravelToLocation(String location) {
+    public void setTravelToLocation(final String location) {
         /** Wait for input to be present*/
         String pattern = ("//*[@id='location-input-TO-POSITIONED']");
-        final WebElement INPUT_TO_ELEMENT = driver.findElement(By.xpath(pattern));
+        final WebElement INPUT_TO_ELEMENT = DRIVER.findElement(By.xpath(pattern));
         fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath(pattern)));
         INPUT_TO_ELEMENT.click();
 
@@ -71,16 +73,15 @@ public class ReisPlanner {
     }
 
     @When("^I click ON \"(.*)\"$")
-    public void clickButton(String text) {
+    public void clickButton(final String text) {
         String xpath = ("//button[.//span[normalize-space(text())='Plannen']]");
-        WebElement element = driver.findElement(By.xpath(xpath));
+        WebElement element = DRIVER.findElement(By.xpath(xpath));
         fluentWait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
 
-
     @Then("the page shows reisadvies with following information:")
-    public void thePageShowsResiadviesWithFollowingInformation(DataTable table) {
+    public void thePageShowsReisadviesWithFollowingInformation(final DataTable table) {
         /** Wait for reisdetails-card to be available*/
         fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='rp-reisdetails__journey']")));
 
@@ -95,25 +96,24 @@ public class ReisPlanner {
 
     @After()
     public void closeBrowser() {
-        driver.quit();
+        DRIVER.quit();
     }
 
 
 
-    public static ChromeDriver getDriver() {
+    private static ChromeDriver getDriver() {
         final String binaryPath = "C:\\applications\\drivers\\chromedriver.exe";
         java.lang.System.setProperty("webdriver.chrome.driver", binaryPath);
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments(
                 "--disable-infobars",
-//                "--headless",
+                "--headless",
                 "--start-maximized"
         );
 
         return new ChromeDriver(options);
     }
-
 
 }
 

@@ -1,8 +1,8 @@
 @browser
-Feature: Can I open reisplanner?
-  We want to know if the homepage of reisplanner can be openend
+Feature: Can I use the reisplanner?
+  We want to know if the basic functionality works
 
-  Scenario: The reisplanner homepage can be opened succesfully
+  Scenario: Plan a trip between two Dutch cities
     Given I am on the Reisplanner homepage
     When  I choose to travel FROM "Rotterdam Centraal"
     And   I choose to travel TO "Amsterdam Centraal"

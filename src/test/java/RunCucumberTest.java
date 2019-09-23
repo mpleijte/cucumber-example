@@ -10,7 +10,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 @RunWith(Cucumber.class)
 // ,tags="@unit and @browser")
-@CucumberOptions(plugin = { "pretty", "html:target/cucumber-reports", "json:target/cucumber.json" }
+@CucumberOptions(plugin = {
+            "pretty",
+            "html:target/reports",
+            "json:target/cucumber.json",
+            "junit:target/cucumber.xml"
+        }
         ,features ="src/test/resources/features"
         ,tags="@browser")
 public class RunCucumberTest {

@@ -7,6 +7,34 @@
     <groupId>com.pleijteit.ns</groupId>
     <artifactId>reisplanner</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <cucumber-java.version>4.7.2</cucumber-java.version>
+        <cucumber-java.version-junit>4.7.2</cucumber-java.version-junit>
+        <selenium-java.version>3.141.59</selenium-java.version>
+        <maven-cucumber-reporting.version>4.9.0</maven-cucumber-reporting.version>
+        <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber-java.version-junit}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium-java.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -20,7 +48,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
@@ -28,7 +56,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>4.4.0</version>
+                <version>${maven-cucumber-reporting.version}</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -37,9 +65,15 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>CucumberWebGui</projectName>
-                            <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
+                            <projectName>Hello NS Reisplanner Demo</projectName>
+                            <outputDirectory>${project.build.directory}/reports</outputDirectory>
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <jsonFile>**/*.json</jsonFile>
+                            </jsonFiles>
+                            <enableFlashCharts>true</enableFlashCharts>
                             <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
+                            <buildNumber>42</buildNumber>
                         </configuration>
                     </execution>
                 </executions>
@@ -47,30 +81,6 @@
         </plugins>
     </build>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.io.cucumber.cucumber-java>4.7.2</project.io.cucumber.cucumber-java>
-        <project.io.cucumber.cucumber-junit>4.7.2</project.io.cucumber.cucumber-junit>
-        <project.org.seleniumhq.selenium.selenium-java>3.141.59</project.org.seleniumhq.selenium.selenium-java>
-    </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${project.io.cucumber.cucumber-java}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>${project.io.cucumber.cucumber-junit}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${project.org.seleniumhq.selenium.selenium-java}</version>
-        </dependency>
-
-    </dependencies>
 
 </project>

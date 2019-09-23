@@ -30,7 +30,7 @@ public class NsReisplanner {
             .ignoring(NoSuchElementException.class);
 
     @Given("^I am on the Reisplanner homepage$")
-    public void visitGoogle() {
+    public void visitNsReisplannerHomepage() {
 
         /** open homepage */
         DRIVER.get("https://www.ns.nl/reisplanner#/");
@@ -47,7 +47,7 @@ public class NsReisplanner {
     }
 
     @When("^I choose to travel FROM \"(.*)\"$")
-    public void setTravelFromLocation(String location) {
+    public void setTravelFromLocation(final String location) {
         /** Wait for input to be present*/
         String pattern = ("//*[@id='location-input-FROM-POSITIONED']");
         final WebElement INPUT_FROM_ELEMENT = DRIVER.findElement(By.xpath(pattern));
@@ -92,7 +92,6 @@ public class NsReisplanner {
             fluentWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
         }
     }
-
 
     @After()
     public void closeBrowser() {

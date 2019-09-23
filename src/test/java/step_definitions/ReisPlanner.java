@@ -105,7 +105,11 @@ public class ReisPlanner {
         java.lang.System.setProperty("webdriver.chrome.driver", binaryPath);
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("disable-infobars");
+        options.addArguments(
+                "--disable-infobars",
+//                "--headless",
+                "--start-maximized"
+        );
 
         return new ChromeDriver(options);
     }

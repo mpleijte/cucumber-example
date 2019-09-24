@@ -71,8 +71,6 @@
                             <jsonFiles>
                                 <jsonFile>**/*.json</jsonFile>
                             </jsonFiles>
-                            <enableFlashCharts>true</enableFlashCharts>
-                            <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
                             <buildNumber>42</buildNumber>
                         </configuration>
                     </execution>
@@ -80,7 +78,4 @@
             </plugin>
         </plugins>
     </build>
-
-
-
 </project>
